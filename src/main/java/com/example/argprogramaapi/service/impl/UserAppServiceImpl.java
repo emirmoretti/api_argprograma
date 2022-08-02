@@ -1,5 +1,6 @@
 package com.example.argprogramaapi.service.impl;
 
+import com.example.argprogramaapi.exception.UserNotFoundException;
 import com.example.argprogramaapi.model.UserApp;
 import com.example.argprogramaapi.repository.UserAppRepository;
 import com.example.argprogramaapi.service.UserAppService;
@@ -16,7 +17,7 @@ public class UserAppServiceImpl implements UserAppService {
 
     @Override
     public UserApp findById(Long id) {
-        return userAppRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return userAppRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override
