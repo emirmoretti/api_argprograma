@@ -1,9 +1,6 @@
 package com.example.argprogramaapi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Skill {
@@ -17,5 +14,9 @@ public class Skill {
     private String imageUrl;
 
     private int progress;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 
 }

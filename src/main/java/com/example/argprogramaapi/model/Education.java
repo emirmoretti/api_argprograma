@@ -1,9 +1,19 @@
 package com.example.argprogramaapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Education {
 
     @Id
@@ -18,4 +28,9 @@ public class Education {
     private Date graduationDate;
 
     private String imageUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    @JsonIgnore
+    private Profile profile;
 }

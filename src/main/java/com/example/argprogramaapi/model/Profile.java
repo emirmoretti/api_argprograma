@@ -13,11 +13,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserApp {
+public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, updatable = false)
     private Long id;
 
     private String name;
@@ -30,13 +29,5 @@ public class UserApp {
 
     private String imageUrl;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Experience> experiences;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Education> educations;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Skill> skills;
 
 }

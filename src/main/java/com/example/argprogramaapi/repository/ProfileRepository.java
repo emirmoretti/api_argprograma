@@ -1,9 +1,9 @@
 package com.example.argprogramaapi.repository;
 
-import com.example.argprogramaapi.model.UserApp;
+import com.example.argprogramaapi.model.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserAppRepository extends JpaRepository<UserApp, Long> {
+public interface ProfileRepository extends JpaRepository<Profile, Long> {
 }

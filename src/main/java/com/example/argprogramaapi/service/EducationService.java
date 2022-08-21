@@ -5,7 +5,7 @@ import com.example.argprogramaapi.model.Education;
 import java.util.List;
 
 public interface EducationService {
-    Education create(Education education);
+    Education save(Education education, Long idProfile);
 
     List<Education> getAll();
 

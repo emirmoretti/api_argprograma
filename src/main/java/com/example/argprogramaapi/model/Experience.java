@@ -2,10 +2,7 @@ package com.example.argprogramaapi.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -26,5 +23,8 @@ public class Experience {
     private Date graduationDate;
 
     private String imageUrl;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 
 }
