@@ -29,6 +29,11 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
+    public Education findById(Long id) {
+        return educationRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<Education> getAll() {
         return educationRepository.findAll();

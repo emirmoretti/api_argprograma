@@ -7,6 +7,8 @@ import java.util.List;
 public interface EducationService {
     Education save(Education education, Long idProfile);
 
+    Education findById(Long id);
+
     List<Education> getAll();
 
     Education edit(Education education);
