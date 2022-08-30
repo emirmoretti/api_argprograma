@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProfileService {
 
-    Profile findById(Long id);
+    Profile findFirstProfile();
 
     Profile create(Profile user);
 

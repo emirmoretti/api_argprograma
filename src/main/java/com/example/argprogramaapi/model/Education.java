@@ -27,7 +27,8 @@ public class Education {
     @Temporal(TemporalType.DATE)
     private Date graduationDate;
 
-    private String imageUrl;
+    @OneToOne
+    private Image Image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")

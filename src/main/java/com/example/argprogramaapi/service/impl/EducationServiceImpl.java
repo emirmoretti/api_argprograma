@@ -22,8 +22,8 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     @Transactional
-    public Education save(Education education, Long id) {
-        Profile profile = profileService.findById(id);
+    public Education save(Education education) {
+        Profile profile = profileService.findFirstProfile();
         education.setProfile(profile);
         return educationRepository.save(education);
     }

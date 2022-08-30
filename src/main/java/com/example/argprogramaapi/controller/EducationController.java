@@ -30,8 +30,8 @@ public class EducationController {
         }
         return ResponseEntity.ok().body(educationList);
     }
-    @PostMapping("/add/{idProfile}")
-    public ResponseEntity<?> create(@PathVariable(name = "idProfile") Long id, @Valid @RequestBody Education education, BindingResult result){
+    @PostMapping
+    public ResponseEntity<?> create( @Valid @RequestBody Education education, BindingResult result){
         Map<String, Object> response = new HashMap<>();
         Education educationNew = null;
         if (result.hasErrors()) {
@@ -46,7 +46,7 @@ public class EducationController {
         }
 
         try {
-           educationNew = educationService.save(education, id);
+           educationNew = educationService.save(education);
         } catch (DataAccessException e){
             response.put("mensaje", "Error al crear la educacion");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -80,8 +80,8 @@ public class EducationController {
             educationActual.setGraduationDate(educationNew.getGraduationDate());
             educationActual.setName(educationNew.getName());
             educationActual.setStartDate(educationNew.getStartDate());
-            educationActual.setImageUrl(educationNew.getImageUrl());
-            educationActualizado = educationService.save(educationActual, educationActual.getProfile().getId());
+            educationActual.setImage(educationNew.getImage());
+            educationActualizado = educationService.save(educationActual);
         } catch (DataAccessException e){
             response.put("mensaje", "Error al crear al cliente");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

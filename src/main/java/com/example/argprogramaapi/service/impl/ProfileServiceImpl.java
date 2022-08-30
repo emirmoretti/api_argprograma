@@ -16,8 +16,8 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileRepository profileRepository;
 
     @Override
-    public Profile findById(Long id) {
-        return profileRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+    public Profile findFirstProfile() {
+        return profileRepository.findFirstByOrderById();
     }
 
     @Override

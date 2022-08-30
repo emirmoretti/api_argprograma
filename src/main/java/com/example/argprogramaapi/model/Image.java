@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Imagen {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +21,7 @@ public class Imagen {
     private String imagenUrl;
     private String imagenId;
 
-    public Imagen(String name, String imagenUrl, String imagenId) {
+    public Image(String name, String imagenUrl, String imagenId) {
         this.name = name;
         this.imagenUrl = imagenUrl;
         this.imagenId = imagenId;

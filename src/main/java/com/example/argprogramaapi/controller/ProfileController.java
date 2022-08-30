@@ -16,14 +16,10 @@ public class ProfileController {
     @Autowired
     private ProfileServiceImpl profileService;
 
-    @GetMapping
-    public List<Profile> returnAll(){
-        return profileService.getAll();
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProfile(@PathVariable(name = "id") Long id){
-        Profile user = profileService.findById(id);
+    @GetMapping
+    public ResponseEntity<?> getMyProfile(){
+        Profile user = profileService.findFirstProfile();
         return ResponseEntity.ok().body(user);
     }
     @PostMapping
