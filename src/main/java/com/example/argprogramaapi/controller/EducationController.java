@@ -7,6 +7,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,65 +33,12 @@ public class EducationController {
         return ResponseEntity.ok().body(educationList);
     }
     @PostMapping
-    public ResponseEntity<?> create( @Valid @RequestBody Education education, BindingResult result){
-        Map<String, Object> response = new HashMap<>();
-        Education educationNew = null;
-        if (result.hasErrors()) {
-            List<String> errors = result.getFieldErrors()
-                    .stream()
-                    .map(err -> {
-                        return "El campo '" + err.getField() + "' " + err.getDefaultMessage();
-                    })
-                    .collect(Collectors.toList());
-            response.put("errors", errors);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-
-        try {
-           educationNew = educationService.save(education);
-        } catch (DataAccessException e){
-            response.put("mensaje", "Error al crear la educacion");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.put("mensaje", "Educacion ha sido creado con exito");
-        response.put("educacion", educationNew);
-        return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+    public ResponseEntity<?> create(@Valid @RequestBody Education education){
+        return ResponseEntity.status(HttpStatus.CREATED).body(educationService.save(education));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> editEducation(@PathVariable Long id, @Valid @RequestBody Education educationNew, BindingResult result){
-        Education educationActual = educationService.findById(id);
-        Education educationActualizado = null;
-        Map<String, Object> response = new HashMap<>();
-
-        if (result.hasErrors()) {
-            List<String> errors = result.getFieldErrors()
-                    .stream()
-                    .map(err -> {
-                        return "El campo '" + err.getField() + "' " + err.getDefaultMessage();
-                    })
-                    .collect(Collectors.toList());
-            response.put("errors", errors);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-        if (educationActual == null) {
-            response.put("mensaje", "education not found");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        try {
-            educationActual.setGraduationDate(educationNew.getGraduationDate());
-            educationActual.setName(educationNew.getName());
-            educationActual.setStartDate(educationNew.getStartDate());
-            educationActual.setImage(educationNew.getImage());
-            educationActualizado = educationService.save(educationActual);
-        } catch (DataAccessException e){
-            response.put("mensaje", "Error al crear al cliente");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.put("mensaje", "Educacion ha sido actualizado con exito");
-        response.put("educacion", educationActualizado);
-        return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+    public ResponseEntity<?> editEducation(@PathVariable Long id, @Valid @RequestBody Education educationNew){
+        return ResponseEntity.ok().body(educationService.updateEducation(id, educationNew));
     }
 
     @DeleteMapping("/{id}")

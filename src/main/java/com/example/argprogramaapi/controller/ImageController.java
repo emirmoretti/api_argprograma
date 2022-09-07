@@ -32,10 +32,7 @@ public class ImageController {
             return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
         }
         Map result = cloudinaryService.upload(multipartFile);
-        Image image =
-                new Image(result.get("original_filename").toString(),
-                        result.get("url").toString(),
-                        result.get("public_id").toString());
+        Image image = imageService.resultToImage(result);
         imageService.save(image);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -43,9 +40,6 @@ public class ImageController {
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) throws IOException{
         if(!imageService.exists(id))
             return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
-        Image image = imageService.findById(id).get();
-        Map result = cloudinaryService.delete(image.getImagenId());
-        imageService.delete(id);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(imageService.delete(id), HttpStatus.OK);
     }
 }

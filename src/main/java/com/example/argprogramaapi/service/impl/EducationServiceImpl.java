@@ -41,8 +41,15 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     @Transactional
-    public Education edit(Education education) {
-        return null;
+    public Education updateEducation(Long id, Education education) {
+        Education educationDB = findById(id);
+        if(educationDB != null) {
+            educationDB.setName(education.getName());
+            educationDB.setStartDate(education.getStartDate());
+            educationDB.setImage(education.getImage());
+            educationDB.setGraduationDate(education.getGraduationDate());
+        }
+        return educationRepository.save(educationDB);
     }
 
     @Override

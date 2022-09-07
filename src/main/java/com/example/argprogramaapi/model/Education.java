@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -19,7 +21,8 @@ public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @NotNull(message = "No debe ser nulo")
+    @NotBlank(message = "No debe estar vacio")
     private String name;
 
     @Temporal(TemporalType.DATE)

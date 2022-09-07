@@ -11,7 +11,7 @@ public interface EducationService {
 
     List<Education> getAll();
 
-    Education edit(Education education);
+    Education updateEducation(Long id, Education education);
 
     void delete(Long id);
 }
