@@ -2,6 +2,7 @@ package com.example.argprogramaapi.service;
 
 import com.example.argprogramaapi.model.Skill;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface SkillService {
@@ -10,8 +11,10 @@ public interface SkillService {
 
     List<Skill> getAll();
 
-    Skill getById(Long id);
+    Skill findById(Long id);
 
-    void deleteById(Long id);
+    Skill updateSkill(Long id, Skill skill);
+
+    void deleteById(Long id) throws IOException;
 
 }

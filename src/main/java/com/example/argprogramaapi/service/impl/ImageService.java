@@ -27,7 +27,7 @@ public class ImageService {
 
     public Image resultToImage(Map result){
         return new Image(result.get("original_filename").toString(),
-                result.get("url").toString(),
+                result.get("secure_url").toString(),
                 result.get("public_id").toString());
     }
 

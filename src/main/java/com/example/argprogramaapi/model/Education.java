@@ -19,7 +19,7 @@ import java.util.Date;
 public class Education {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull(message = "No debe ser nulo")
     @NotBlank(message = "No debe estar vacio")
@@ -30,7 +30,7 @@ public class Education {
     @Temporal(TemporalType.DATE)
     private Date graduationDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Image Image;
 
     @ManyToOne(fetch = FetchType.LAZY)

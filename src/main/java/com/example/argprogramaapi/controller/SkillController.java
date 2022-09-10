@@ -1,14 +1,23 @@
 package com.example.argprogramaapi.controller;
 
+import com.example.argprogramaapi.dto.Message;
+import com.example.argprogramaapi.model.Image;
 import com.example.argprogramaapi.model.Skill;
 import com.example.argprogramaapi.repository.SkillRepository;
+import com.example.argprogramaapi.service.impl.CloudinaryService;
+import com.example.argprogramaapi.service.impl.ImageService;
 import com.example.argprogramaapi.service.impl.SkillServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/skills")
@@ -16,6 +25,10 @@ public class SkillController {
 
     @Autowired
     private SkillServiceImpl skillService;
+    @Autowired
+    private CloudinaryService cloudinaryService;
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping
     public ResponseEntity<?> getAllSkills(){
@@ -33,7 +46,8 @@ public class SkillController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> editSkill(@PathVariable Long id, @RequestBody Skill  skillRequest){
-        return null;
+        Skill skill = skillService.updateSkill(id, skillRequest);
+        return ResponseEntity.ok().body(skill);
     }
 
     @DeleteMapping("/{id}")
@@ -44,5 +58,26 @@ public class SkillController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/image")
+    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile archivo, @RequestParam Long id) throws IOException {
+        Skill skillDb = skillService.findById(id);
+        if (skillDb == null) {
+            return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
+        }
+        BufferedImage bi = ImageIO.read(archivo.getInputStream());
+        if(bi == null){
+            return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
+        }
+        if(skillDb.getImage() != null){
+            imageService.delete(skillDb.getImage().getId());
+        }
+        Map result = cloudinaryService.upload(archivo);
+        Image image = imageService.resultToImage(result);
+        imageService.save(image);
+        skillDb.setImage(image);
+        skillService.save(skillDb);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

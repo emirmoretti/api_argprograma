@@ -1,8 +1,15 @@
 package com.example.argprogramaapi.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Skill {
 
     @Id
@@ -11,7 +18,8 @@ public class Skill {
 
     private String name;
 
-    private String imageUrl;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
 
     private int progress;
 

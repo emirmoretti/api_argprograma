@@ -27,8 +27,8 @@ public class ProfileController {
         Profile profileDb = profileService.update(profile);
         return ResponseEntity.ok().body(profileDb);
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable(name="id") Long id, @RequestBody Profile profile){
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Profile profile){
         Profile profileDb = profileService.update(profile);
         return ResponseEntity.ok().body(profileDb);
     }

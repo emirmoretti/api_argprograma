@@ -1,7 +1,12 @@
 package com.example.argprogramaapi.controller;
 
+import com.example.argprogramaapi.dto.Message;
 import com.example.argprogramaapi.model.Education;
+import com.example.argprogramaapi.model.Image;
+import com.example.argprogramaapi.model.Skill;
 import com.example.argprogramaapi.service.EducationService;
+import com.example.argprogramaapi.service.impl.CloudinaryService;
+import com.example.argprogramaapi.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -10,8 +15,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +32,16 @@ import java.util.stream.Collectors;
 public class EducationController {
     @Autowired
     private EducationService educationService;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping
     public ResponseEntity<?> getAll(){
         List<Education> educationList = educationService.getAll();
         if(educationList == null || educationList.isEmpty()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lista vacia");
         }
         return ResponseEntity.ok().body(educationList);
     }
@@ -50,4 +63,26 @@ public class EducationController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/image")
+    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile archivo, @RequestParam Long id) throws IOException {
+        Education educationDb = educationService.findById(id);
+        if (educationDb == null) {
+            return new ResponseEntity(new Message("No existe esa id"), HttpStatus.BAD_REQUEST);
+        }
+        BufferedImage bi = ImageIO.read(archivo.getInputStream());
+        if(bi == null){
+            return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
+        }
+        if(educationDb.getImage() != null){
+            imageService.delete(educationDb.getImage().getId());
+        }
+        Map result = cloudinaryService.upload(archivo);
+        Image image = imageService.resultToImage(result);
+        imageService.save(image);
+        educationDb.setImage(image);
+        educationService.save(educationDb);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

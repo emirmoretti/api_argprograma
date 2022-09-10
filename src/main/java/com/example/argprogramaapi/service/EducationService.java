@@ -2,6 +2,7 @@ package com.example.argprogramaapi.service;
 
 import com.example.argprogramaapi.model.Education;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface EducationService {
@@ -13,5 +14,5 @@ public interface EducationService {
 
     Education updateEducation(Long id, Education education);
 
-    void delete(Long id);
+    void delete(Long id) throws IOException;
 }

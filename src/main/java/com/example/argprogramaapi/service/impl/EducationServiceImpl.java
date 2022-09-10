@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -19,6 +20,9 @@ public class EducationServiceImpl implements EducationService {
 
     @Autowired
     private ProfileServiceImpl profileService;
+
+    @Autowired
+    private ImageService imageService;
 
     @Override
     @Transactional
@@ -53,13 +57,13 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws IOException {
         Education education = educationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Education not found"));
-        educationRepository.deleteById(id);
-        if(education != null){
-            educationRepository.deleteById(id);
+        if(education.getImage() != null){
+            imageService.delete(education.getImage().getId());
         }
+        educationRepository.deleteById(id);
     }
 
 }
