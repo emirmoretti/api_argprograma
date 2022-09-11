@@ -73,11 +73,9 @@ public class SkillController {
         if(skillDb.getImage() != null){
             imageService.delete(skillDb.getImage().getId());
         }
-        Map result = cloudinaryService.upload(archivo);
-        Image image = imageService.resultToImage(result);
-        imageService.save(image);
+        Image image = imageService.save(archivo);
         skillDb.setImage(image);
         skillService.save(skillDb);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>("imagen guardada", HttpStatus.OK);
     }
 }

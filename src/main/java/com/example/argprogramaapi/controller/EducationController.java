@@ -75,14 +75,15 @@ public class EducationController {
             return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
         }
         if(educationDb.getImage() != null){
-            imageService.delete(educationDb.getImage().getId());
+            Long idDb = educationDb.getImage().getId();
+            educationDb.setImage(null);
+            educationService.save(educationDb);
+            imageService.delete(idDb);
         }
-        Map result = cloudinaryService.upload(archivo);
-        Image image = imageService.resultToImage(result);
-        imageService.save(image);
+        Image image = imageService.save(archivo);
         educationDb.setImage(image);
         educationService.save(educationDb);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
 }

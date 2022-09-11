@@ -4,6 +4,7 @@ import com.example.argprogramaapi.model.Image;
 import com.example.argprogramaapi.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,8 +22,11 @@ public class ImageService {
         return imageRepository.findById(id);
     }
 
-    public void save(Image image){
+    public Image save(MultipartFile archivo) throws IOException{
+        Map result = cloudinaryService.upload(archivo);
+        Image image = resultToImage(result);
         imageRepository.save(image);
+        return image;
     }
 
     public Image resultToImage(Map result){
@@ -31,11 +35,12 @@ public class ImageService {
                 result.get("public_id").toString());
     }
 
-    public Map delete(Long id) throws IOException {
+    public void delete(Long id) throws IOException {
         Image image = findById(id).get();
-        Map result = cloudinaryService.delete(image.getImagenId());
-        imageRepository.deleteById(id);
-        return result;
+        if (exists(id)){
+            imageRepository.deleteById(id);
+        }
+        cloudinaryService.delete(image.getImagenId());
     }
 
     public boolean exists(Long id){

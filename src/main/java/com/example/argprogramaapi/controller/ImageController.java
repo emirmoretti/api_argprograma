@@ -25,21 +25,22 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam MultipartFile multipartFile) throws IOException{
-        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-        if(bi == null){
-            return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
-        }
-        Map result = cloudinaryService.upload(multipartFile);
-        Image image = imageService.resultToImage(result);
-        imageService.save(image);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) throws IOException{
-        if(!imageService.exists(id))
-            return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(imageService.delete(id), HttpStatus.OK);
-    }
+//    @PostMapping("/upload")
+//    public ResponseEntity<?> upload(@RequestParam MultipartFile multipartFile) throws IOException{
+//        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+//        if(bi == null){
+//            return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
+//        }
+//        Map result = cloudinaryService.upload(multipartFile);
+//        Image image = imageService.resultToImage(result);
+//        imageService.save(image);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) throws IOException{
+//        if(!imageService.exists(id))
+//            return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
+//        imageService.delete(id);
+//        return new ResponseEntity<>("Imagen eliminada", HttpStatus.OK);
+//    }
 }
