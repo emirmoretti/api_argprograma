@@ -38,6 +38,10 @@ public class SkillController {
         }
         return ResponseEntity.ok().body(skillList);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id){
+        return ResponseEntity.ok().body(skillService.findById(id));
+    }
 
     @PostMapping
     public ResponseEntity<?> createSkill(@RequestBody Skill skillRequest){
@@ -76,6 +80,6 @@ public class SkillController {
         Image image = imageService.save(archivo);
         skillDb.setImage(image);
         skillService.save(skillDb);
-        return new ResponseEntity<>("imagen guardada", HttpStatus.OK);
+        return ResponseEntity.ok().body(skillDb);
     }
 }
