@@ -45,6 +45,10 @@ public class EducationController {
         }
         return ResponseEntity.ok().body(educationList);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getEducationById(@PathVariable Long id){
+        return ResponseEntity.ok().body(educationService.findById(id));
+    }
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Education education){
         return ResponseEntity.status(HttpStatus.CREATED).body(educationService.save(education));
@@ -83,7 +87,7 @@ public class EducationController {
         Image image = imageService.save(archivo);
         educationDb.setImage(image);
         educationService.save(educationDb);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(educationDb);
     }
 
 }
