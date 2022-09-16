@@ -75,7 +75,10 @@ public class SkillController {
             return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
         }
         if(skillDb.getImage() != null){
-            imageService.delete(skillDb.getImage().getId());
+            Long idDbImage = skillDb.getImage().getId();
+            skillDb.setImage(null);
+            skillService.save(skillDb);
+            imageService.delete(idDbImage);
         }
         Image image = imageService.save(archivo);
         skillDb.setImage(image);

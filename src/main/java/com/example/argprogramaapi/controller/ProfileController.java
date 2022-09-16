@@ -22,13 +22,13 @@ public class ProfileController {
         Profile user = profileService.findFirstProfile();
         return ResponseEntity.ok().body(user);
     }
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody Profile profile){
-        Profile profileDb = profileService.update(profile);
-        return ResponseEntity.ok().body(profileDb);
-    }
+//    @PostMapping
+//    public ResponseEntity<?> create(@RequestBody Profile profile){
+//        Profile profileDb = profileService.update(profile);
+//        return ResponseEntity.ok().body(profileDb);
+//    }
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody Profile profile){
+    public ResponseEntity<?> updateMyProfile(@RequestBody Profile profile){
         Profile profileDb = profileService.update(profile);
         return ResponseEntity.ok().body(profileDb);
     }

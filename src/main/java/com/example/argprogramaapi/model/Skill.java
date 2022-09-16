@@ -1,5 +1,6 @@
 package com.example.argprogramaapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class Skill {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
+    @JsonIgnore
     private Profile profile;
 
 }
