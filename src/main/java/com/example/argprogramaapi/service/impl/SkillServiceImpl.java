@@ -46,14 +46,15 @@ public class SkillServiceImpl implements SkillService {
             throw new EntityNotFoundException("skill not found");
         skillDb.setName(skill.getName());
         skillDb.setImage(skill.getImage());
-        skillDb.setProgress(skill.getProgress());
         return skillRepository.save(skillDb);
     }
 
     @Override
     public void deleteById(Long id) throws IOException {
-        Skill skilldb = skillRepository.findById(id).get();
-        imageService.delete(skilldb.getImage().getId());
+        Skill skilldb = skillRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Skill not found"));
+        if(skilldb.getImage() != null){
+            imageService.delete(skilldb.getImage().getId());
+        }
         skillRepository.deleteById(id);
     }
 }

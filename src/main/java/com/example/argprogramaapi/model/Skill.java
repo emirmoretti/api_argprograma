@@ -22,8 +22,6 @@ public class Skill {
     @OneToOne(cascade = CascadeType.ALL)
     private Image image;
 
-    private int progress;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     @JsonIgnore

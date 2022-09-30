@@ -3,8 +3,6 @@ package com.example.argprogramaapi.controller;
 import com.example.argprogramaapi.dto.Message;
 import com.example.argprogramaapi.model.Image;
 import com.example.argprogramaapi.model.Skill;
-import com.example.argprogramaapi.repository.SkillRepository;
-import com.example.argprogramaapi.service.impl.CloudinaryService;
 import com.example.argprogramaapi.service.impl.ImageService;
 import com.example.argprogramaapi.service.impl.SkillServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +15,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/skills")
+@CrossOrigin(origins = "http://localhost:4200")
 public class SkillController {
 
     @Autowired
     private SkillServiceImpl skillService;
-    @Autowired
-    private CloudinaryService cloudinaryService;
     @Autowired
     private ImageService imageService;
 

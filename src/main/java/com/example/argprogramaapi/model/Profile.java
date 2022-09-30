@@ -24,10 +24,9 @@ public class Profile {
     private String lastName;
 
     private String title;
-
+    @Column(length = 1000)
     private String description;
 
-    private String imageUrl;
-
-
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
 }
