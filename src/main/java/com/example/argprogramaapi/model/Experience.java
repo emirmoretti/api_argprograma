@@ -13,7 +13,7 @@ import java.util.Date;
 public class Experience {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -22,7 +22,6 @@ public class Experience {
 
     private Date graduationDate;
 
-    private String imageUrl;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private Profile profile;
