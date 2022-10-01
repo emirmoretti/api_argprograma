@@ -1,18 +1,11 @@
 package com.example.argprogramaapi.controller;
-
-import com.example.argprogramaapi.dto.Message;
-import com.example.argprogramaapi.model.Image;
 import com.example.argprogramaapi.model.Skill;
-import com.example.argprogramaapi.service.impl.ImageService;
 import com.example.argprogramaapi.service.impl.SkillServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,8 +16,6 @@ public class SkillController {
 
     @Autowired
     private SkillServiceImpl skillService;
-    @Autowired
-    private ImageService imageService;
 
     @GetMapping
     public ResponseEntity<?> getAllSkills() {
@@ -63,23 +54,11 @@ public class SkillController {
 
     @PostMapping("/image")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile archivo, @RequestParam Long id) throws IOException {
-        Skill skillDb = skillService.findById(id);
-        if (skillDb == null) {
-            return new ResponseEntity(new Message("skill not found"), HttpStatus.BAD_REQUEST);
-        }
-        BufferedImage bi = ImageIO.read(archivo.getInputStream());
-        if (bi == null) {
-            return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
-        }
-        if (skillDb.getImage() != null) {
-            Long idDbImage = skillDb.getImage().getId();
-            skillDb.setImage(null);
-            skillService.save(skillDb);
-            imageService.delete(idDbImage);
-        }
-        Image image = imageService.save(archivo);
-        skillDb.setImage(image);
-        skillService.save(skillDb);
-        return ResponseEntity.ok().body(skillDb);
+        return ResponseEntity.ok(skillService.uploadImage(archivo, id));
+    }
+    @DeleteMapping("/image/{idSkill}")
+    public ResponseEntity<?> deleteImage(@PathVariable Long idSkill) throws IOException {
+        skillService.deleteImage(idSkill);
+        return ResponseEntity.ok("Imagen eliminada");
     }
 }

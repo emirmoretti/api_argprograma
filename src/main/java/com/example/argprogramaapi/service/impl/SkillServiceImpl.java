@@ -1,11 +1,14 @@
 package com.example.argprogramaapi.service.impl;
 
+import com.example.argprogramaapi.model.Image;
 import com.example.argprogramaapi.model.Profile;
+import com.example.argprogramaapi.model.Project;
 import com.example.argprogramaapi.model.Skill;
 import com.example.argprogramaapi.repository.SkillRepository;
 import com.example.argprogramaapi.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
@@ -56,5 +59,26 @@ public class SkillServiceImpl implements SkillService {
             imageService.delete(skilldb.getImage().getId());
         }
         skillRepository.deleteById(id);
+    }
+
+    @Override
+    public Skill uploadImage(MultipartFile archivo, Long id) throws IOException{
+        Skill skillDb = findById(id);
+        imageService.biValidation(archivo);
+        if (skillDb.getImage() != null) {
+            deleteImage(id);
+        }
+        Image image = imageService.save(archivo);
+        skillDb.setImage(image);
+        return save(skillDb);
+    }
+
+    @Override
+    public void deleteImage(Long id) throws IOException{
+        Skill skillDb = findById(id);
+        Long idDbImage = skillDb.getImage().getId();
+        skillDb.setImage(null);
+        save(skillDb);
+        imageService.delete(idDbImage);
     }
 }
