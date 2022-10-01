@@ -1,11 +1,16 @@
 package com.example.argprogramaapi.service.impl;
 
+import com.example.argprogramaapi.dto.Message;
 import com.example.argprogramaapi.model.Image;
 import com.example.argprogramaapi.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -45,5 +50,12 @@ public class ImageService {
 
     public boolean exists(Long id){
         return imageRepository.existsById(id);
+    }
+
+    public void biValidation(MultipartFile archivo) throws IOException {
+        BufferedImage bi = ImageIO.read(archivo.getInputStream());
+        if (bi == null) {
+            throw new IOException("Imagen no valida");
+        }
     }
 }
