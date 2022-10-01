@@ -19,4 +19,6 @@ public interface ProjectService {
     void deleteProject(Long id);
 
     Project uploadImage(MultipartFile file, Long id) throws IOException;
+
+    void deleteImage(Long id) throws IOException;
 }

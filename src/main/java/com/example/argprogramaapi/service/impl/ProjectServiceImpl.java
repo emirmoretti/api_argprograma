@@ -2,6 +2,7 @@ package com.example.argprogramaapi.service.impl;
 
 import com.example.argprogramaapi.mapper.ProjectMapper;
 import com.example.argprogramaapi.model.Image;
+import com.example.argprogramaapi.model.Profile;
 import com.example.argprogramaapi.model.Project;
 import com.example.argprogramaapi.repository.ProjectRepository;
 import com.example.argprogramaapi.service.ProjectService;
@@ -23,10 +24,14 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectMapper projectMapper;
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private ProfileServiceImpl profileService;
 
     @Override
     @Transactional
     public Project saveProject(Project project) {
+        Profile myProfile = profileService.findFirstProfile();
+        project.setProfile(myProfile);
         return projectRepository.save(project);
     }
 
@@ -61,13 +66,19 @@ public class ProjectServiceImpl implements ProjectService {
         Project projectDb = findById(id);
         imageService.biValidation(archivo);
         if (projectDb.getImage() != null) {
-            Long idDbImage = projectDb.getImage().getId();
-            projectDb.setImage(null);
-            saveProject(projectDb);
-            imageService.delete(idDbImage);
+             deleteImage(id);
         }
         Image image = imageService.save(archivo);
         projectDb.setImage(image);
         return saveProject(projectDb);
+    }
+
+    @Override
+    public void deleteImage(Long id) throws IOException {
+        Project projectDb = findById(id);
+        Long idDbImage = projectDb.getImage().getId();
+        projectDb.setImage(null);
+        saveProject(projectDb);
+        imageService.delete(idDbImage);
     }
 }

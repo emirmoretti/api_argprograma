@@ -1,6 +1,7 @@
 package com.example.argprogramaapi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,5 +32,10 @@ public class Project {
 
     @Temporal(TemporalType.DATE)
     private Date startDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    @JsonIgnore
+    private Profile profile;
 
 }

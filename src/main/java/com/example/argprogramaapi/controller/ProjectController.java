@@ -51,5 +51,10 @@ public class ProjectController {
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile archivo, @RequestParam Long id) throws IOException {
         return ResponseEntity.ok(projectService.uploadImage(archivo, id));
     }
+    @DeleteMapping("/image/{idProject}")
+    public ResponseEntity<?> deleteImage(@PathVariable Long idProject) throws IOException {
+        projectService.deleteImage(idProject);
+        return ResponseEntity.ok("Imagen eliminada");
+    }
 
 }
