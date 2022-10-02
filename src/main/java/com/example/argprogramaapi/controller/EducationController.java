@@ -23,8 +23,6 @@ import java.util.List;
 public class EducationController {
     @Autowired
     private EducationService educationService;
-    @Autowired
-    private ImageService imageService;
     @GetMapping
     public ResponseEntity<?> getAll(){
         List<Education> educationList = educationService.getAll();
@@ -58,24 +56,7 @@ public class EducationController {
 
     @PostMapping("/image")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile archivo, @RequestParam Long id) throws IOException {
-        Education educationDb = educationService.findById(id);
-        if (educationDb == null) {
-            return new ResponseEntity(new Message("No existe esa id"), HttpStatus.BAD_REQUEST);
-        }
-        BufferedImage bi = ImageIO.read(archivo.getInputStream());
-        if(bi == null){
-            return new ResponseEntity(new Message("imagen no válida"), HttpStatus.BAD_REQUEST);
-        }
-        if(educationDb.getImage() != null){
-            Long idDb = educationDb.getImage().getId();
-            educationDb.setImage(null);
-            educationService.save(educationDb);
-            imageService.delete(idDb);
-        }
-        Image image = imageService.save(archivo);
-        educationDb.setImage(image);
-        educationService.save(educationDb);
-        return ResponseEntity.ok().body(educationDb);
+      return ResponseEntity.ok(educationService.uploadImage(archivo, id));
     }
 
 }

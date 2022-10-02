@@ -1,12 +1,15 @@
 package com.example.argprogramaapi.service.impl;
 
 import com.example.argprogramaapi.model.Education;
+import com.example.argprogramaapi.model.Image;
 import com.example.argprogramaapi.model.Profile;
+import com.example.argprogramaapi.model.Project;
 import com.example.argprogramaapi.repository.EducationRepository;
 import com.example.argprogramaapi.service.EducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
@@ -34,7 +37,7 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     public Education findById(Long id) {
-        return educationRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+        return educationRepository.findById(id).orElseThrow(() -> new RuntimeException("Education not found"));
     }
 
     @Override
@@ -64,6 +67,27 @@ public class EducationServiceImpl implements EducationService {
             imageService.delete(education.getImage().getId());
         }
         educationRepository.deleteById(id);
+    }
+
+    @Override
+    public Education uploadImage(MultipartFile archivo, Long id) throws IOException {
+        Education educationDb = findById(id);
+        imageService.biValidation(archivo);
+        if (educationDb.getImage() != null) {
+            deleteImage(id);
+        }
+        Image image = imageService.save(archivo);
+        educationDb.setImage(image);
+        return save(educationDb);
+    }
+
+    @Override
+    public void deleteImage(Long id) throws IOException {
+        Education educationDb = findById(id);
+        Long idDbImage = educationDb.getImage().getId();
+        educationDb.setImage(null);
+        save(educationDb);
+        imageService.delete(idDbImage);
     }
 
 }
