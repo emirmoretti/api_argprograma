@@ -32,6 +32,6 @@ public class ExperienceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteExperience(@PathVariable Long id){
         experienceService.deleteExperience(id);
-        return ResponseEntity.ok("Experience deleted");
+        return ResponseEntity.ok().build();
     }
 }
