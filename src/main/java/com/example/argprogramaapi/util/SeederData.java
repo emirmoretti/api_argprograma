@@ -19,10 +19,10 @@ public class SeederData {
     @EventListener
     public void eventListener(ContextRefreshedEvent contextRefreshedEvent){
         if(profileRepository.count() < 1){
-            createProfile();
+           // createProfile();
         }
         if(educationRepository.count() < 1){
-            createEducation();
+           // createEducation();
         }
     }
 

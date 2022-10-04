@@ -21,7 +21,10 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile create(Profile profile) {
+    public Profile create(Profile profile) throws Exception {
+
+        if (profileRepository.count() > 0) throw new Exception("Ya existe un perfil");
+
         return profileRepository.save(profile);
     }
 

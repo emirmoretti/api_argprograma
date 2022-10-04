@@ -33,6 +33,10 @@ public class ProfileController {
         Profile user = profileService.findFirstProfile();
         return ResponseEntity.ok().body(user);
     }
+    @PostMapping
+    public ResponseEntity<?> createProfile(@RequestBody Profile profile ) throws Exception {
+        return ResponseEntity.ok(profileService.create(profile));
+    }
     @PutMapping
     public ResponseEntity<?> updateMyProfile(@RequestBody Profile profile){
         Profile profileDb = profileService.update(profile);

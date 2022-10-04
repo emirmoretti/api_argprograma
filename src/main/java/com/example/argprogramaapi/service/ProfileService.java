@@ -8,7 +8,7 @@ public interface ProfileService {
 
     Profile findFirstProfile();
 
-    Profile create(Profile user);
+    Profile create(Profile user) throws Exception;
 
     Profile update(Profile user);
 
