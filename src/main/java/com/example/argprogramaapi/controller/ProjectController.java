@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/projects")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProjectController {
 
     @Autowired
@@ -44,7 +45,7 @@ public class ProjectController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok("Project deleted");
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/image")

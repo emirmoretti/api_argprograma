@@ -56,8 +56,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public void deleteProject(Long id) {
+    public void deleteProject(Long id) throws IOException {
         Project project = findById(id);
+        if (project.getImage() != null) imageService.delete(project.getImage().getId());
         if (project != null) projectRepository.deleteById(id);
     }
 
