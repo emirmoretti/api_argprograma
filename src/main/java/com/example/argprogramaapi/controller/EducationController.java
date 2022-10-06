@@ -1,19 +1,13 @@
 package com.example.argprogramaapi.controller;
 
-import com.example.argprogramaapi.dto.Message;
 import com.example.argprogramaapi.model.Education;
-import com.example.argprogramaapi.model.Image;
 import com.example.argprogramaapi.service.EducationService;
-import com.example.argprogramaapi.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
 import javax.validation.Valid;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
