@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/education")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 public class EducationController {
     @Autowired
     private EducationService educationService;
