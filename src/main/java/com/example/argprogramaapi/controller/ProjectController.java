@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/projects")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins =  {"http://localhost:4200", "https://emirmoretti-d67f9.firebaseapp.com/"}, maxAge = 3600, allowCredentials="true")
 public class ProjectController {
 
     @Autowired

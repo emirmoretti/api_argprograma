@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "https://emirmoretti-d67f9.firebaseapp.com/"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/education")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "https://emirmoretti-d67f9.firebaseapp.com/"}, maxAge = 3600, allowCredentials="true")
 public class EducationController {
     @Autowired
     private EducationService educationService;
