@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/experience")
-@CrossOrigin(origins = "https://emirmoretti-d67f9.firebaseapp.com/", maxAge = 3600, allowCredentials="true")
 public class ExperienceController {
     @Autowired
     private ExperienceService experienceService;

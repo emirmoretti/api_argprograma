@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/skills")
-@CrossOrigin(origins = "https://emirmoretti-d67f9.firebaseapp.com/", maxAge = 3600, allowCredentials="true")
 public class SkillController {
 
     @Autowired

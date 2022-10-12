@@ -12,7 +12,6 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/projects")
-@CrossOrigin(origins = "https://emirmoretti-d67f9.firebaseapp.com/", maxAge = 3600, allowCredentials="true")
 public class ProjectController {
 
     @Autowired
