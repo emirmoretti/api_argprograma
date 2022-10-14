@@ -41,7 +41,7 @@ public class WebSecurityConfig{
         http.cors().configurationSource(
                 request-> {
                     CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins(Arrays.asList("https://emirmoretti-d67f9.firebaseapp.com/", "http://localhost:4200"));
+                    configuration.setAllowedOrigins(Arrays.asList("https://emirmoretti-d67f9.firebaseapp.com/", "http://localhost:4200", "https://emirmoretti-d67f9.web.app/", "https://emirmoretti.com.ar/"));
                     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
                     configuration.setMaxAge(3600L);
                     configuration.setAllowedHeaders(List.of("*"));
