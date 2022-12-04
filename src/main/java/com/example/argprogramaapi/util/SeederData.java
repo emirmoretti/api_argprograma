@@ -6,6 +6,7 @@ import com.example.argprogramaapi.repository.ProfileRepository;
 import com.example.argprogramaapi.repository.RoleRepository;
 import com.example.argprogramaapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,8 @@ public class SeederData {
     PasswordEncoder encoder;
     @Autowired
     UserRepository userRepository;
+    @Value("${USER_PASSWORD}")
+    private static String user_pw;
 
     @EventListener
     public void eventListener(ContextRefreshedEvent contextRefreshedEvent){
@@ -40,7 +43,7 @@ public class SeederData {
     public void createUser(){
         User user = new User("emirmoretti",
                 "emir.moretti@hotmail.com.ar",
-                encoder.encode("emir123456"));
+                encoder.encode(user_pw));
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found"));
