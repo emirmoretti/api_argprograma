@@ -27,7 +27,7 @@ public class SeederData {
     PasswordEncoder encoder;
     @Autowired
     UserRepository userRepository;
-    @Value("${USER_PASSWORD}")
+    @Value("${user.pw}")
     private static String user_pw;
 
     @EventListener
